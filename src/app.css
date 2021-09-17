@@ -1,0 +1,83 @@
+#page-container {
+  width: 100%;
+  height: 100vh;
+  display: block;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Helvetica Neue";
+}
+
+#header {
+  flex: 1;
+  color: black;
+  margin: 0;
+  text-align: center;
+}
+
+#message-container {
+  flex: 25;
+  display: flex;
+  flex-direction: row;
+}
+
+#message-conversations {
+  flex: 1;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.conversations {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-bottom-style: none;
+  height: 7%;
+  padding: 3%;
+  padding-left: 6%;
+  text-align: left;
+  justify-content: center;
+}
+
+.conversation-preview {
+  margin: 0;
+}
+
+#conversation-container {
+  flex: 3;
+  flex-direction: column;
+  border-width: 1;
+  border-color: black;
+}
+
+#message-sender {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 5%;
+  padding-left: 5%;
+  background-color: rgba(123, 123, 123, 0.2);
+}
+
+.conversation-sender {
+  margin: 0;
+}
+
+#messages {
+  height: 90%;
+  background-color: blue;
+}
+
+#input-container {
+  height: 10%;
+  background-color: rgba(123, 123, 123, 0.2);
+}
+
+#input-field {
+  border-radius: 8%;
+  width: 90%;
+  height: 30%;
+}
