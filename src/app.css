@@ -7,19 +7,18 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   font-family: "Helvetica Neue";
 }
 
 #header {
-  flex: 1;
+  height: 4%;
   color: black;
   margin: 0;
   text-align: center;
 }
 
 #message-container {
-  flex: 25;
+  height: 95%;
   display: flex;
   flex-direction: row;
 }
@@ -28,13 +27,15 @@
   flex: 1;
   flex-direction: column;
   overflow-x: hidden;
+  border: 1px solid rgba(123, 123, 123, 0.2);
 }
 
 .conversations {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  border-bottom-style: none;
+  border: 1px solid rgba(123, 123, 123, 0.2);
+  border-left-style: none;
+  border-right-style: none;
   height: 7%;
   padding: 3%;
   padding-left: 6%;
@@ -67,17 +68,78 @@
 }
 
 #messages {
+  display: flex;
+  flex-direction: column;
   height: 90%;
-  background-color: blue;
+  background-color: rgba(212, 196, 196, 0.185);
+  overflow-y: scroll;
+}
+
+.blue-bubble {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-end;
+  word-wrap: break-word;
+  height: auto;
+  width: 40%;
+  margin: 0px 0px 10px 0px;
+  border-radius: 5% 5% 5% 5% / 20% 20% 20% 20%;
+  background-color: rgb(17, 95, 184);
+}
+
+.white-bubble {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  word-wrap: break-word;
+  height: auto;
+  width: 40%;
+  margin: 0px 0px 10px 0px;
+  border-radius: 5% 5% 5% 5% / 20% 20% 20% 20%;
+  background-color: rgb(218, 218, 218);
+}
+
+.message-text {
+  color: black;
+  padding: 5px 10px;
+  white-space: pre-line;
+  line-height: 20px;
 }
 
 #input-container {
-  height: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 6%;
   background-color: rgba(123, 123, 123, 0.2);
 }
 
-#input-field {
-  border-radius: 8%;
+#input-field-decoraiton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 4% 4% 4% 4% / 45% 45% 45% 45%;
   width: 90%;
-  height: 30%;
+  height: 80%;
+  border: 1.5px solid black;
+  background-color: white;
+}
+
+form {
+  width: 95%;
+  margin: auto;
+}
+
+#input-field {
+  font-size: 18px;
+  height: 80%;
+  width: 100%;
+  border-style: none;
+  margin: auto;
+  overflow: scroll;
+}
+
+input:focus {
+  outline: none;
 }
