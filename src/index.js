@@ -46,7 +46,10 @@ class App extends React.Component {
       // If there's more than one message
       if (sentMessagesLength > 0) {
         // If it's been > 5 seconds since last message add new bubble
-        if (time - sentMessages[sentMessagesLength - 1].timeEnd > 5000) {
+        if (
+          time - sentMessages[sentMessagesLength - 1].timeEnd > 3000 ||
+          sentMessages[sentMessagesLength - 1].bubbleColour === "white"
+        ) {
           // console.log(">5::" + time - sentMessages[sentMessagesLength].timeEnd);
           this.setState({
             sentMessages: [
@@ -94,8 +97,12 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.sentMessages !== this.state.sentMessages) {
-      const { sentMessages } = this.state;
+    const { sentMessages } = this.state;
+    // Just to add fake responses
+    if (
+      prevState.sentMessages !== this.state.sentMessages &&
+      sentMessages.length === 3
+    ) {
       if (sentMessages[sentMessages.length - 1].bubbleColour !== "white") {
         const time = new Date().getTime();
         setTimeout(() => {
@@ -110,7 +117,7 @@ class App extends React.Component {
               },
             ],
           });
-        }, 4000);
+        }, 10);
       }
     }
   }
@@ -141,7 +148,7 @@ class App extends React.Component {
             <div id="conversation-container">
               {/* Conversation Sender */}
               <div id="message-sender">
-                <h2 className="conversation-sender">{list[0][0]}</h2>
+                <h2 className="conversation-sender">{list[1][0]}</h2>
               </div>
 
               {/* Conversation Messages */}
@@ -149,13 +156,13 @@ class App extends React.Component {
                 {messages.map((messages) => {
                   if (messages.bubbleColour === "blue") {
                     return (
-                      <div className="blue-bubble">
+                      <div className="me bubble">
                         <p className="message-text">{messages?.message}</p>
                       </div>
                     );
                   } else if (messages.bubbleColour === "white") {
                     return (
-                      <div className="white-bubble">
+                      <div className="them bubble">
                         <p className="message-text">{messages?.message}</p>
                       </div>
                     );
