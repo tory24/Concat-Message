@@ -3,14 +3,17 @@ import React from "react";
 import "./app.css";
 
 const list = [
-  ["Chelsi Bielovich", "Hey, good lookin'"],
+  ["Chelsi Bielovich", "Hey, hru?'"],
   ["Tom Cave", "I'm a dweeb"],
   ["Tristan Casey", "Freeze! Imma shoot!"],
   ["Olivia Bielovich", "Pilates time?"],
-  ["ABC123", "Hi, I'd like to offer some Viagra"],
-  ["SXC6969", "I am nigerian prince, i need to sukky sukky dik"],
+  ["ABC123", "Hi, do you know your alphabet?"],
+  [
+    "SXC6969",
+    "I am nigerian prince, I need 1mil$$ to get to Australia l$$ to get to Australia l$$ to get to Australia",
+  ],
   ["Chizle", "Get ripped quick! $1 million!"],
-  ["Lezzy", "Hey, bby i love u long time"],
+  ["Leslie", "Black widow suxxz"],
 ];
 
 class App extends React.Component {
@@ -47,7 +50,7 @@ class App extends React.Component {
       if (sentMessagesLength > 0) {
         // If it's been > 5 seconds since last message add new bubble
         if (
-          time - sentMessages[sentMessagesLength - 1].timeEnd > 3000 ||
+          time - sentMessages[sentMessagesLength - 1].timeEnd > 5000 ||
           sentMessages[sentMessagesLength - 1].bubbleColour === "white"
         ) {
           // console.log(">5::" + time - sentMessages[sentMessagesLength].timeEnd);
