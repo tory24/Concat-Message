@@ -1,197 +1,156 @@
-import ReactDOM from "react-dom";
 import React from "react";
+import ReactDOM from "react-dom";
 import "./app.css";
+import { Conversations } from "./components/conversations";
+import { InputField } from "./components/inputfield";
+import { MainMessage } from "./components/mainMessage";
 
 const list = [
-  ["Chelsi Bielovich", "Hey, hru?'"],
-  ["Tom Cave", "I'm a dweeb"],
-  ["Tristan Casey", "Freeze! Imma shoot!"],
-  ["Olivia Bielovich", "Pilates time?"],
-  ["ABC123", "Hi, do you know your alphabet?"],
-  [
-    "SXC6969",
-    "I am nigerian prince, I need 1mil$$ to get to Australia l$$ to get to Australia l$$ to get to Australia",
-  ],
-  ["Chizle", "Get ripped quick! $1 million!"],
-  ["Leslie", "Black widow suxxz"],
+	["Chelsi Bielovich", "Hey, hru?'"],
+	["Tom Cave", "I'm a dweeb"],
+	["Tristan Casey", "Freeze! Imma shoot!"],
+	["Olivia Bielovich", "Pilates time?"],
+	["ABC123", "Hi, do you know your alphabet?"],
+	["Hello,", "I am your father."],
+	["Chizle", "Get ripped quick! $1 million!"],
+	["Leslie", "Black widow suxxz"],
+	["Chizle", "Get ripped quick! $1 million!"],
+	["Leslie", "Busy?"],
+	["Chizle", "Hey how are you!"],
+	["Leslie", "Black widow suxxz"],
+	["Chizle", "Got a min"],
+	["Leslie", "Black widow suxxz"],
+	["Chizle", "Get ripped quick! $1 million!"],
+	["Leslie", "Black widow suxxz"],
 ];
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      recipient: "",
-      sender: "",
-      messages: {
-        senderMessages: [],
-        recievedMessages: [],
-      },
-      sentMessages: [],
-      currentMessage: "",
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			recipient: "",
+			sender: "",
+			messages: {
+				senderMessages: [],
+				recievedMessages: [],
+			},
+			sentMessages: [],
+			currentMessage: "",
+		};
+	}
 
-  handleChange(event) {
-    this.setState({ currentMessage: event.target.value });
-  }
+	handleChange = (event) => {
+		this.setState({ currentMessage: event.target.value });
+	};
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const time = new Date().getTime();
-    const { currentMessage, sentMessages } = this.state;
-    var sentMessagesLength = sentMessages.length;
-    if (
-      currentMessage.length > 0 &&
-      !!currentMessage.replace(/\s/g, "").length
-    ) {
-      // If there's more than one message
-      if (sentMessagesLength > 0) {
-        // If it's been > 5 seconds since last message add new bubble
-        if (
-          time - sentMessages[sentMessagesLength - 1].timeEnd > 5000 ||
-          sentMessages[sentMessagesLength - 1].bubbleColour === "white"
-        ) {
-          // console.log(">5::" + time - sentMessages[sentMessagesLength].timeEnd);
-          this.setState({
-            sentMessages: [
-              ...this.state.sentMessages,
-              {
-                bubbleColour: "blue",
-                message: this.state.currentMessage,
-                timeStart: time,
-                timeEnd: time,
-              },
-            ],
-          });
-          // If it's been < 5 seconds since last message add to bubble
-        } else {
-          const lastBubble = sentMessages[sentMessagesLength - 1];
-          const removeLastMessage = this.state.sentMessages.slice(0, -1);
-          this.setState({
-            sentMessages: [
-              ...removeLastMessage,
-              {
-                bubbleColour: "blue",
-                message: lastBubble.message + "\n" + currentMessage,
-                timeStart: lastBubble.timeStart,
-                timeEnd: time,
-              },
-            ],
-          });
-        }
+	handleSubmit = (event) => {
+		event.preventDefault();
+		const { currentMessage, sentMessages } = this.state;
+		if (currentMessage.length <= 0 || !currentMessage.replace(/\s/g, "").length)
+			return;
 
-        // If there's no messages sent
-      } else {
-        this.setState({
-          sentMessages: [
-            {
-              bubbleColour: "blue",
-              message: this.state.currentMessage,
-              timeStart: time,
-              timeEnd: time,
-            },
-          ],
-        });
-      }
-    }
-    this.setState({ currentMessage: "" });
-  }
+		const time = new Date().getTime();
 
-  componentDidUpdate(prevProps, prevState) {
-    const { sentMessages } = this.state;
-    // Just to add fake responses
-    if (
-      prevState.sentMessages !== this.state.sentMessages &&
-      sentMessages.length === 3
-    ) {
-      if (sentMessages[sentMessages.length - 1].bubbleColour !== "white") {
-        const time = new Date().getTime();
-        setTimeout(() => {
-          this.setState({
-            sentMessages: [
-              ...this.state.sentMessages,
-              {
-                bubbleColour: "white",
-                message: "Hey! Long time no speak! Whats up?",
-                timeStart: time,
-                timeEnd: time,
-              },
-            ],
-          });
-        }, 10);
-      }
-    }
-  }
+		// If there's more than one message
+		if (sentMessages.length > 0) {
+			const lastMessage = sentMessages[sentMessages.length - 1];
+			// If it's been > 5 seconds since last message add new bubble
+			if (
+				time - lastMessage.timeEnd > 5000 ||
+				lastMessage.bubbleColour === "white"
+			) {
+				this.setState((prevState) => ({
+					sentMessages: [
+						...prevState.sentMessages,
+						{
+							bubbleColour: "blue",
+							message: currentMessage,
+							timeStart: time,
+							timeEnd: time,
+						},
+					],
+					currentMessage: "",
+				}));
+				// If it's been < 5 seconds since last message add to bubble
+			} else {
+				this.setState((prevState) => ({
+					sentMessages: [
+						...prevState.sentMessages.slice(0, -1),
+						{
+							bubbleColour: "blue",
+							message: lastMessage.message + "\n" + currentMessage,
+							timeStart: lastMessage.timeStart,
+							timeEnd: time,
+						},
+					],
+					currentMessage: "",
+				}));
+			}
+			// If there's no messages sent
+		} else {
+			this.setState({
+				sentMessages: [
+					{
+						bubbleColour: "blue",
+						message: currentMessage,
+						timeStart: time,
+						timeEnd: time,
+					},
+				],
+				currentMessage: "",
+			});
+		}
+	};
 
-  render() {
-    const messages = this.state.sentMessages;
-    return (
-      <>
-        {/* Page Container */}
-        <div id="page-container">
-          {/* Title */}
-          <h1 id="header">Concat Message</h1>
+	componentDidUpdate(prevProps, prevState) {
+		const { sentMessages } = this.state;
+		// Just to add fake responses
+		if (
+			prevState.sentMessages !== this.state.sentMessages &&
+			sentMessages.length === 3
+		) {
+			if (sentMessages[sentMessages.length - 1].bubbleColour !== "white") {
+				setTimeout(() => {
+					const time = new Date().getTime();
+					this.setState({
+						sentMessages: [
+							...this.state.sentMessages,
+							{
+								bubbleColour: "white",
+								message: "Hey! Long time no speak! Whats up?",
+								timeStart: time,
+								timeEnd: time,
+							},
+						],
+					});
+				}, 10);
+			}
+		}
+	}
 
-          {/* Message App */}
-          <div id="message-container">
-            {/* Message List */}
-            <div id="message-conversations">
-              {/* List of messages */}
-              {list.map((x) => (
-                <div className="conversations">
-                  <h3 style={{ margin: 0 }}>{x[0]}</h3>
-                  <p className="conversation-preview">{x[1]}</p>
-                </div>
-              ))}
-            </div>
+	render() {
+		const { sentMessages, currentMessage } = this.state;
 
-            {/* Messages */}
-            <div id="conversation-container">
-              {/* Conversation Sender */}
-              <div id="message-sender">
-                <h2 className="conversation-sender">{list[1][0]}</h2>
-              </div>
-
-              {/* Conversation Messages */}
-              <div id="messages">
-                {messages.map((messages) => {
-                  if (messages.bubbleColour === "blue") {
-                    return (
-                      <div className="me bubble">
-                        <p className="message-text">{messages?.message}</p>
-                      </div>
-                    );
-                  } else if (messages.bubbleColour === "white") {
-                    return (
-                      <div className="them bubble">
-                        <p className="message-text">{messages?.message}</p>
-                      </div>
-                    );
-                  }
-                })}
-              </div>
-
-              {/* Input Field */}
-              <div id="input-container">
-                <div id="input-field-decoraiton">
-                  <form onSubmit={this.handleSubmit}>
-                    <input
-                      type="text"
-                      id="input-field"
-                      value={this.state.currentMessage}
-                      onChange={this.handleChange}
-                    ></input>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
+		return (
+			<div id="page-container">
+				<h1 id="header">Concat Message</h1>
+				<div id="message-container">
+					<Conversations list={list} />
+					<div id="conversation-container">
+						<div id="message-sender">
+							<h2 className="conversation-sender">{list[1][0]}</h2>
+						</div>
+						<MainMessage sentMessages={sentMessages} />
+						<InputField
+							handleSubmit={this.handleSubmit}
+							handleChange={this.handleChange}
+							currentMessage={currentMessage}
+						/>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 ReactDOM.render(<App />, document.getElementById("app"));
